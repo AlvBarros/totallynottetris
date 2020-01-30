@@ -3,40 +3,49 @@ import 'dart:ui';
 import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
 
+import '../../../tetris.dart';
+
 class Tile {
-  static int size = 36;
+  double size;
   Color color;
   bool occupied;
+  bool justUpdated;
+  bool beingMoved;
 
-  Tile({Color color = Colors.black, bool occupied = false}) {
+  Tile({@required TetrisGame game, Color color = Colors.black, bool occupied = false}) {
     this.color = color;
     this.occupied = occupied;
-    // print('$color tile created');
+    // matrix size = 10 + % * 8 , 10 + % * 16
+    this.size = (game.screenSize.height * 0.6) / 16;
+    justUpdated = false;
+    beingMoved = false;
   }
 
   void render(Canvas canvas, Position position) {
-    Rect rect = Rect.fromLTWH(position.x, position.y, Tile.size.toDouble(), Tile.size.toDouble());
+    Rect rect = Rect.fromLTWH(position.x, position.y, this.size, this.size);
     Paint paint = Paint();
     paint.color = this.color == null ? Colors.black : this.color;
     canvas.drawRect(rect, paint);
   }
 
-  List<Color> _colors = [
-    Colors.black, Colors.green, Colors.pink,
-    Colors.purple, Colors.yellow, Colors.grey,
-    Colors.blueAccent, Colors.red
+  static List<Color> colors = [
+    Colors.green, 
+    Colors.pink,
+    Colors.purple, 
+    Colors.yellow, 
+    Colors.grey,
+    Colors.blueAccent, 
+    Colors.red
   ];
 
-  // static Tile random() {
+  static Tile empty(TetrisGame game) => Tile(game: game, color: Colors.black, occupied: false);
+  static Tile green(TetrisGame game) => Tile(game: game, color: Colors.green, occupied: true);
+  static Tile pink(TetrisGame game) => Tile(game: game, color: Colors.pink, occupied: true);
+  static Tile purple(TetrisGame game) => Tile(game: game, color: Colors.purple, occupied: true);
+  static Tile yellow(TetrisGame game) => Tile(game: game, color: Colors.yellow, occupied: true);
+  static Tile grey(TetrisGame game) => Tile(game: game, color: Colors.grey, occupied: true);
+  static Tile blue(TetrisGame game) => Tile(game: game, color: Colors.blueAccent, occupied: true);
+  static Tile red(TetrisGame game) => Tile(game: game, color: Colors.red, occupied: true);
 
-  // }
-
-  static Tile empty() => Tile(color: Colors.black, occupied: false);
-  static Tile green() => Tile(color: Colors.green, occupied: true);
-  static Tile pink() => Tile(color: Colors.pink, occupied: true);
-  static Tile purple() => Tile(color: Colors.purple, occupied: true);
-  static Tile yellow() => Tile(color: Colors.yellow, occupied: true);
-  static Tile grey() => Tile(color: Colors.grey, occupied: true);
-  static Tile blue() => Tile(color: Colors.blueAccent, occupied: true);
-  static Tile red() => Tile(color: Colors.red, occupied: true);
+  static Tile fromColor(TetrisGame game, Color color) => Tile(game: game, color: color, occupied: true);
 }

@@ -7,4 +7,5 @@ abstract class SceneComponent {
   void render(Canvas c) {}
 
   onTapDown(TapDownDetails details) {}
+  onTapUp(TapUpDetails details) {}
 }

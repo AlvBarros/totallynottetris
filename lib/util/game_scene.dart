@@ -14,4 +14,5 @@ abstract class GameScene {
   void render(Canvas c){}
 
   void onTapDown(TapDownDetails details) {}
+  void onTapUp(TapUpDetails details) {}
 }
