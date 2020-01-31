@@ -48,7 +48,7 @@ class TetrisGame extends Game {
   }
 
   void onTapUp(TapUpDetails details) {
-    print('tap up captured on tetris.dart');
+    // print('tap up captured on tetris.dart');
     currentScene.onTapUp(details);
   }
 }

@@ -39,4 +39,10 @@ class MainMenuTitle implements SceneComponent {
     return null;
   }
 
+  @override
+  onTapUp(TapUpDetails details) {
+    // TODO: implement onTapUp
+    return null;
+  }
+
 }

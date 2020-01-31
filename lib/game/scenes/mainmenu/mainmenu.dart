@@ -50,4 +50,9 @@ class MainMenuScene implements GameScene {
   void onTapDown(TapDownDetails details) {
     sceneComponents.forEach((SceneComponent component) => component.onTapDown(details));
   }
+
+  @override
+  void onTapUp(TapUpDetails details) {
+    sceneComponents.forEach((SceneComponent sceneComponent) => sceneComponent.onTapUp(details));
+  }
 }

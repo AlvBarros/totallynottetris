@@ -20,4 +20,10 @@ class MainMenuBackground implements SceneBackground {
     return null;
   }
 
+  @override
+  onTapUp(TapUpDetails details) {
+    // TODO: implement onTapUp
+    return null;
+  }
+
 }
