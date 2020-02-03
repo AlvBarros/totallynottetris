@@ -23,11 +23,14 @@ class MoveLeftButton implements SceneComponent {
     arrowPath.lineTo(left + (right - left) * 0.50, bottom);
     arrowPath.lineTo(left + (right - left) * 0.65, bottom);
     arrowPath.lineTo(
-        left + (right - left) * 0.3 + ((right - left) * 0.65 - (right - left) * 0.5),
+        left +
+            (right - left) * 0.3 +
+            ((right - left) * 0.65 - (right - left) * 0.5),
         top + (bottom - top) * 0.5);
     arrowPath.lineTo(left + (right - left) * 0.65, top);
 
-    arrowRect = Rect.fromLTWH(left, top, right - left, bottom - top);
+    arrowRect =
+        Rect.fromLTWH(left, top * 0.97, right - left, (bottom - top) * 2);
   }
 
   Path arrowPath;
@@ -41,7 +44,7 @@ class MoveLeftButton implements SceneComponent {
 
   @override
   onTapUp(TapUpDetails details) {
-    if (arrowRect.contains(details.globalPosition)){
+    if (arrowRect.contains(details.globalPosition)) {
       return true;
     }
   }
@@ -49,6 +52,15 @@ class MoveLeftButton implements SceneComponent {
   @override
   void render(Canvas c) {
     Paint whitePaint = Paint()..color = Colors.white;
+
+    // Paint redPaint = Paint()..color = Colors.red;
+    // double top = this.game.screenSize.height * 0.8;
+    // double bottom = this.game.screenSize.height * 0.85;
+    // double left = this.game.screenSize.width * 0.10;
+    // double right = this.game.screenSize.width * 0.30;
+    // arrowRect = Rect.fromLTWH(left, top * 0.97, right - left, (bottom - top) * 2);
+    // c.drawRect(arrowRect, redPaint);
+
     c.drawPath(arrowPath, whitePaint);
   }
 
@@ -82,12 +94,15 @@ class MoveRightButton implements SceneComponent {
     //     left + (right - left) * 0.3 + ((right - left) * 0.65 - (right - left) * 0.5),
     //     top + (bottom - top) * 0.5);
     arrowPath.lineTo(
-      right - (right - left) * 0.3 - ((right - left) * 0.65 - (right - left) * 0.5),
-      top + (bottom - top) * 0.5);
+        right -
+            (right - left) * 0.3 -
+            ((right - left) * 0.65 - (right - left) * 0.5),
+        top + (bottom - top) * 0.5);
     // arrowPath.lineTo(left + (right - left) * 0.65, top);
     arrowPath.lineTo(left + (right - left) * 0.35, top);
 
-    arrowRect = Rect.fromLTWH(left, top, right - left, bottom - top);
+    arrowRect =
+        Rect.fromLTWH(left, top * 0.97, right - left, (bottom - top) * 2);
   }
 
   Path arrowPath;
@@ -101,7 +116,7 @@ class MoveRightButton implements SceneComponent {
 
   @override
   onTapUp(TapUpDetails details) {
-    if (arrowRect.contains(details.globalPosition)){
+    if (arrowRect.contains(details.globalPosition)) {
       return true;
     }
   }
@@ -109,6 +124,16 @@ class MoveRightButton implements SceneComponent {
   @override
   void render(Canvas c) {
     Paint whitePaint = Paint()..color = Colors.white;
+
+    // Paint redPaint = Paint()..color = Colors.red;
+    // double top = this.game.screenSize.height * 0.8;
+    // double bottom = this.game.screenSize.height * 0.85;
+    // double left = this.game.screenSize.width * 0.70;
+    // double right = this.game.screenSize.width * 0.90;
+    // arrowRect =
+    //     Rect.fromLTWH(left, top * 0.97, right - left, (bottom - top) * 2);
+    // c.drawRect(arrowRect, redPaint);
+
     c.drawPath(arrowPath, whitePaint);
   }
 

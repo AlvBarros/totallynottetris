@@ -77,6 +77,30 @@ class Formation {
         [
           [3, 0]
         ]
+      ],
+      [
+        [
+          [3, -2]
+        ],
+        [
+          [3, -1]
+        ],
+        [
+          [3, 0],
+          [4, 0]
+        ]
+      ],
+      [
+        [
+          [4, -2]
+        ],
+        [
+          [4, -1]
+        ],
+        [
+          [4, 0],
+          [3, 0]
+        ]
       ]
     ];
 
@@ -179,7 +203,7 @@ class Formation {
         row.forEach((List<int> coords) {
           if (coords[1] >= 0) {
             // if block is on wall
-            if (coords[0] == gameMatrix[0].length - 1||
+            if (coords[0] == gameMatrix[0].length - 1 ||
                 // or there is a block on right that is occupied and does not belong to formation
                 (gameMatrix[coords[1]][coords[0] + 1].occupied &&
                     !gameMatrix[coords[1]][coords[0] + 1].beingMoved)) {
@@ -222,5 +246,57 @@ class Formation {
       });
     });
     return gameMatrix;
+  }
+
+  void fallDown(List<List<Tile>> gameMatrix) {
+    // gather every column's top tile's x
+    List<int> everyColumnsTopTilesX = List<int>();
+
+    // begin with empty list setting every column
+    // to bottom
+    for (var c = 0; c < gameMatrix[0].length; c++) everyColumnsTopTilesX.add(0);
+
+    // for each row
+    for (int y = 0; y < gameMatrix.length; y++) {
+      // for each column
+      for (int x = 0; x < gameMatrix[x].length; x++) {
+        // if current tile is occupied and not from the formation
+        Tile currentTile = gameMatrix[y][x];
+        if (currentTile.occupied && !currentTile.beingMoved) {
+          // if column stored is 0 or y is less than current
+          if (everyColumnsTopTilesX[x] == 0 || y < everyColumnsTopTilesX[x]) {
+            everyColumnsTopTilesX[x] = y;
+          }
+        }
+      }
+    }
+/*
+[
+  [
+    [4, -2]
+  ],
+  [
+    [3, -1],
+    [4, -1]
+  ],
+  [
+    [3, 0]
+  ]
+],
+*/
+
+    // get currentPosition's lowest tile for every column
+    List<List<int>> currentLowestTileForEveryColumn =
+        currentPosition.map((List<List<int>> row) {
+      /*
+        [
+          [3, -1],
+          [4, -1]
+        ],
+      */
+      
+    }).toList();
+
+    var test = 0;
   }
 }

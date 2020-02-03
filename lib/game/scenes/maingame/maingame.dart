@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/gestures/tap.dart';
+import 'package:tetris/game/scenes/maingame/buttons/fall_button.dart';
 import 'package:tetris/game/scenes/maingame/buttons/move_buttons.dart';
 import 'package:tetris/game/scenes/maingame/buttons/pause_button.dart';
 import 'package:tetris/game/scenes/maingame/tiles/formation.dart';
@@ -36,6 +37,7 @@ class MainGameScene implements GameScene {
   PauseButton pauseButton;
   MoveLeftButton moveLeftButton;
   MoveRightButton moveRightButton;
+  FallButton fallButton;
 
   List<String> movementQueue;
 
@@ -45,6 +47,8 @@ class MainGameScene implements GameScene {
     pauseButton = PauseButton(game);
     moveLeftButton = MoveLeftButton(game);
     moveRightButton = MoveRightButton(game);
+    fallButton = FallButton(game);
+
     _frameCount = 0.0;
     gameMatrix = List<List<Tile>>();
     for (int i = 0; i < matrixHeight; i++) {
@@ -71,6 +75,7 @@ class MainGameScene implements GameScene {
     pauseButton.render(c);
     moveLeftButton.render(c);
     moveRightButton.render(c);
+    fallButton.render(c);
 
     double frameLeftBorder =
         (game.screenSize.width - matrixWidth * gameMatrix[0][0].size) * 0.5 -
@@ -151,19 +156,24 @@ class MainGameScene implements GameScene {
   @override
   void onTapUp(TapUpDetails details) {
     pauseButton.onTapUp(details);
-    bool moveLeft = moveLeftButton.onTapUp(details) ?? false;
-    bool moveRight = moveRightButton.onTapUp(details) ?? false;
-    // print('${moveLeft ? "left" : moveRight ? "right" : "none"}');
-    if (moveLeft) {
-      movementQueue.add("left");
+
+    if (pauseButton.paused != null ? !pauseButton.paused : false) {
+      bool moveLeft = moveLeftButton.onTapUp(details) ?? false;
+      bool moveRight = moveRightButton.onTapUp(details) ?? false;
+
+      if (moveLeft) {
+        movementQueue.add("left");
+      } else if (moveRight) {
+        movementQueue.add("right");
+      }
     }
-    if (moveRight) {
-      movementQueue.add("right");
-    }
+
+    bool fallDown = fallButton.onTapUp(details);
+    if (fallDown) currentFormation.fallDown(gameMatrix);
   }
 
   void clearFullLines() {
-    for(int r = gameMatrix.length - 1; r >= 0; r--){
+    for (int r = gameMatrix.length - 1; r >= 0; r--) {
       List<Tile> currentRow = gameMatrix[r];
       int numOccupied = currentRow.where((tile) => tile.occupied).length;
       if (numOccupied == currentRow.length) {
@@ -171,18 +181,22 @@ class MainGameScene implements GameScene {
       }
     }
     List<List<Tile>> templateList = List<List<Tile>>();
-    while(templateList.length != 16) {
+    while (templateList.length != 16) {
       templateList.add(<Tile>[
-        Tile.empty(game), Tile.empty(game), Tile.empty(game), Tile.empty(game),
-        Tile.empty(game), Tile.empty(game), Tile.empty(game), Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
+        Tile.empty(game),
       ]);
     }
     gameMatrix.forEach((row) {
       templateList.add(List.from(row));
     });
-    gameMatrix = templateList.sublist(
-      (templateList.length) - 16,
-      (templateList.length)
-      );
+    gameMatrix =
+        templateList.sublist((templateList.length) - 16, (templateList.length));
   }
 }
